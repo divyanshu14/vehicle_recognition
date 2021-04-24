@@ -1,6 +1,7 @@
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' 
 import numpy as np
 import cv2
-import os
 import matplotlib.pyplot as plt
 import tensorflow as tf
 from tensorflow.keras.models import load_model
@@ -27,19 +28,17 @@ def ensemble_predictions(members, testX):
 	return result
 
 
-def predict(filename):
-    # Load the image
-    img = plt.imread(filename)
+def predict(numpy_img):
     # Resize it to the net input size:
-    img = cv2.resize(img, (224, 224))
-    img = img[np.newaxis, ...]
+    numpy_img = cv2.resize(numpy_img, (224, 224))
+    numpy_img = numpy_img[np.newaxis, ...]
 
     # Convert the data to float:
-    img = img.astype(np.float32)
+    numpy_img = numpy_img.astype(np.float32)
 
     # Predict class by picking the highest probability index
     # then add 1 (due to indexing behavior)
-    class_index = ensemble_predictions(models, img)[0]
+    class_index = ensemble_predictions(models, numpy_img)[0]
 
     # Convert class id to name
     label = class_names[class_index]
@@ -48,6 +47,8 @@ def predict(filename):
 
 
 if __name__ == "__main__":
-    images = os.listdir("photos")
-    for filename in images:
-        print(predict("photos/"+filename))
+    img_folder = "photos"
+    img_list = os.listdir(img_folder)
+    for img_name in img_list:
+        numpy_img = plt.imread(os.path.join(img_folder, img_name))
+        print(predict(numpy_img))
