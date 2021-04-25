@@ -1,29 +1,33 @@
 import argparse
-import io
-from PIL import Image
+import matplotlib.pyplot as plt
 from predict import predict 
-from flask import Flask, jsonify, request
-import numpy as np
+from flask import Flask, jsonify, request, redirect
 
 app = Flask(__name__)
 
-@app.route('/', methods=['POST'])
+
+@app.route('/', methods=['GET', 'POST'])
 def image_handler():
-	bio = io.BytesIO()
-	request.files['image'].save(bio)
-	# image = Image.open(bio)
-	image = np.frombuffer(bio.getvalue(), dtype='uint8')	
-	result = predict(image)
-	return jsonify({'result': result}) 
-
-def main():
-	parser = argparse.ArgumentParser()
-	parser.add_argument('--port', default = 8769 , type = int)
-	args = parser.parse_args()
-	app.debug = True
-	app.run('0.0.0.0', args.port)
-
+	if request.method == 'POST':
+		if 'image' not in request.files:
+			return redirect(request.url)
+		image = request.files['image']
+		if image.filename == "":
+			return redirect(request.url)
+		if image:
+			numpy_arr_img = plt.imread(image)
+			result = predict(numpy_arr_img)
+			return jsonify({'result': result}) 
+	return '''
+		<!doctype html>
+		<title>Upload new Image</title>
+		<h1>Upload new Image</h1>
+		<form method=post enctype=multipart/form-data>
+		<input type=file name=image>
+		<input type=submit value=Upload>
+		</form>
+		'''
 
 
 if __name__ == "__main__":
-	main()
+	app.run()

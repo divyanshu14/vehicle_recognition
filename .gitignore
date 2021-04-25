@@ -2,3 +2,4 @@
 vehicle_type_recognition/densenet.h5
 vehicle_type_recognition/inception_v3.h5
 vehicle_type_recognition/mobilenet_v2.h5
+__pycache__

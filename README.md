@@ -23,4 +23,6 @@ Help was taken from https://github.com/hoanhle/Vehicle-Type-Detection for this p
 16. Truck
 17. Van
 
+Make sure all the requirements are installed as specified in [requirements.txt](vehicle_type_recognition/requirements.txt) file. Then run [api_server.py](vehicle_type_recognition/api_server.py) file to run the server. You can make a **POST** request at the specified server as shown in the terminal when you run [api_server.py](vehicle_type_recognition/api_server.py) file. Attach the image whose vehicle type needs to be recognized in the **POST** request with the key **image**. The response is a json text with key **result** containing the prediction.
+
 ## Vehicle Color Recognition
