@@ -1,0 +1,3 @@
+[submodule "VehicleColorRecognition"]
+	path = VehicleColorRecognition
+	url = https://github.com/i-am-g2/VehicleColorRecognition
