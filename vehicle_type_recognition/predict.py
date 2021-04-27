@@ -3,17 +3,17 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
-import tensorflow as tf
 from tensorflow.keras.models import load_model
+from flask import current_app
 
 
 # Create an index of class names
 class_names = ['Ambulance', 'Barge', 'Bicycle', 'Boat', 'Bus', 'Car', 'Cart', 'Caterpillar',
     'Helicopter', 'Limousine', 'Motorcycle', 'Segway', 'Snowmobile', 'Tank', 'Taxi', 'Truck', 'Van']
 
-model1 = load_model('mobilenet_v2.h5')
-model2 = load_model('inception_v3.h5')
-model3 = load_model('densenet.h5')
+model1 = load_model(os.path.join(current_app.config["MODELS_PATH"], 'mobilenet_v2.h5'))
+model2 = load_model(os.path.join(current_app.config["MODELS_PATH"], 'inception_v3.h5'))
+model3 = load_model(os.path.join(current_app.config["MODELS_PATH"], 'densenet.h5'))
 
 models = [model1, model2, model3]
 
